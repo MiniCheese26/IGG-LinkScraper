@@ -15,6 +15,23 @@ namespace IGGGamesURLResolver
         static public string host;
         static public string data;
         static public string url;
+        static public string[] hosters = new string[17] { "MegaUp.net",
+                                                "Mega.co.nz",
+                                                "TusFiles",
+                                                "Rapidgator",
+                                                "Uptobox",
+                                                "Uploaded",
+                                                "Google Drive",
+                                                "Openload.co",
+                                                "ClicknUpload",
+                                                "Go4Up (Multi Links)",
+                                                "MultiUp (Multi Links)",
+                                                "OwnDrives",
+                                                "Upera",
+                                                "KumpulBagi",
+                                                "UpFile",
+                                                "FilesCDN",
+                                                "DownACE"};
 
         public static void Main()
         {
@@ -46,45 +63,46 @@ namespace IGGGamesURLResolver
 
             data = webC.DownloadString(url);
 
+            int detectedCount = ExceptionHandles.CountHosts(hosters);
+            string[] detectedHosts = new string[detectedCount];
+
+            detectedHosts = ExceptionHandles.DetectHosts(hosters, detectedCount);
+
+            detectedHosts = CreateDisplayStrings(detectedCount, detectedHosts);
+
             Console.WriteLine(" ");
-            Console.WriteLine("Please enter the number below for the hoster");
-
-            string[] hosters = new string[16] { "1. MegaUp.net",
-                                                "2. Mega.co.nz",
-                                                "3. TusFiles",
-                                                "4. Rapidgator",
-                                                "5. Uptobox",
-                                                "6. Uploaded",
-                                                "7. Google Drive",
-                                                "8. Openload.co",
-                                                "9. ClicknUpload",
-                                                "10. Go4Up (Multi Links)",
-                                                "11. MultiUp (Multi Links)",
-                                                "12. OwnDrives",
-                                                "13. Upera",
-                                                "14. KumpulBagi",
-                                                "15. UpFile",
-                                                "16. FilesCDN"};
-
-            foreach (string i in hosters)
+            Console.WriteLine("Detected hosts");
+            for (int i = 0; i < detectedCount; i++)
             {
-                Console.WriteLine(i);
+                Console.WriteLine(detectedHosts[i]);
             }
+            int hostNumber = Convert.ToInt32(Console.ReadLine());
 
-            int hosterChoice = Convert.ToInt32(Console.ReadLine());
+            host = detectedHosts[hostNumber - 1];
 
-            HostSelection(hosterChoice, hosters);
+            host = CreateSearchStrings(host);
 
-            Console.ReadKey();
+            GetURLs.FindURLs();
         }
 
-        static void HostSelection(int hosterChoice, string[] hosts)
+        public static string[] CreateDisplayStrings(int detectedCount, string[] detectedHosts)
         {
-            host = hosts[hosterChoice - 1];
+            int listNumber = 1;
+
+            for (int i = 0; i < detectedCount; i++)
+            {
+                detectedHosts[i] = listNumber + ". " + detectedHosts[i];
+                listNumber++;
+            }
+
+            return detectedHosts;
+        }
+
+        public static string CreateSearchStrings(string host)
+        {
             host = host.Substring(3);
-            host = string.Join(" ", host.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             host = "Link " + host + ":";
-            GetURLs.FindURLs();
+            return host;
         }
     }
 }

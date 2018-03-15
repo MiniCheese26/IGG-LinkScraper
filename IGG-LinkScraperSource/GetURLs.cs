@@ -15,22 +15,11 @@ namespace IGGGamesURLResolver
         {
             childNodeText.Clear();
 
-            if (CheckIfHosterExists() != true)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("Sorry, the hoster chosen doesn't exist for this game");
-                Console.ReadKey();
-                Console.Clear();
-                Start.Main();
-            }
-
             HtmlDocument document = new HtmlDocument();
 
             document.LoadHtml(Start.data);
 
             var div = document.DocumentNode.SelectSingleNode("//div[@class=\"post-content clear-block\"]");
-
-            HtmlNodeCollection childDivNodes = div.ChildNodes;
 
             foreach (HtmlNode node in div.Descendants())
             {
@@ -57,13 +46,6 @@ namespace IGGGamesURLResolver
             string[] childNodeTextArray = childNodeText.ToArray();
 
             FoundNode(childNodeTextArray);
-        }
-
-        static bool CheckIfHosterExists()
-        {
-            bool checkIfExists = Start.data.Contains(Start.host);
-            Start.host = ExceptionHandles.FixDifferentURLs(Start.host);
-            return checkIfExists;
         }
 
         static void FoundNode(string[] childNodeArray)
@@ -143,14 +125,14 @@ namespace IGGGamesURLResolver
 
                         if (i == 0)
                         {
-                            File.AppendAllText(dir, Environment.NewLine + 
-                                                    "---------------------------" + 
-                                                    Environment.NewLine + 
-                                                    title + 
-                                                    Environment.NewLine + 
-                                                    "---------------------------" + 
-                                                    Environment.NewLine + 
-                                                    j + 
+                            File.AppendAllText(dir, Environment.NewLine +
+                                                    "---------------------------" +
+                                                    Environment.NewLine +
+                                                    title +
+                                                    Environment.NewLine +
+                                                    "---------------------------" +
+                                                    Environment.NewLine +
+                                                    j +
                                                     Environment.NewLine);
                             i++;
                         }

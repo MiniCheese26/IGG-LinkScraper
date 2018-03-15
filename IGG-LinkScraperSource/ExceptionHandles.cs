@@ -57,5 +57,37 @@ namespace IGGGamesURLResolver
                 return host;
             }
         }
+
+        public static int CountHosts(string[] hosts)
+        {
+            int j = 0;
+
+            foreach (string i in hosts)
+            {
+                if (Start.data.Contains(i))
+                {
+                    j++;
+                }
+            }
+
+            return j;
+        }
+
+        public static string[] DetectHosts(string[] hosters, int arrayLength)
+        {
+            int j = 0;
+            string[] k = new string[arrayLength];
+
+            foreach (string i in hosters)
+            {
+                if (Start.data.Contains(i))
+                {
+                    k[j] = i;
+                    j++;
+                }
+            }
+
+            return k;
+        }
     }
 }
