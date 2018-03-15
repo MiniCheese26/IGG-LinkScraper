@@ -70,17 +70,40 @@ namespace IGGGamesURLResolver
 
             detectedHosts = CreateDisplayStrings(detectedCount, detectedHosts);
 
-            Console.WriteLine(" ");
-            Console.WriteLine("Detected hosts");
-            for (int i = 0; i < detectedCount; i++)
+            bool detectedHostsLoop = false;
+
+                Console.WriteLine(" ");
+                Console.WriteLine("Detected hosts");
+                for (int i = 0; i < detectedCount; i++)
+                {
+                    Console.WriteLine(detectedHosts[i]);
+                }
+                string hostNumberStr = Console.ReadLine();
+
+            do
             {
-                Console.WriteLine(detectedHosts[i]);
-            }
-            int hostNumber = Convert.ToInt32(Console.ReadLine());
+                while (!Int32.TryParse(hostNumberStr, out int n))
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Try again");
 
-            host = detectedHosts[hostNumber - 1];
+                    hostNumberStr = Console.ReadLine();
+                }
 
-            host = CreateSearchStrings(host);
+                int hostCheck = Convert.ToInt32(hostNumberStr);
+
+                if (hostCheck - 1 > detectedCount)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Try again");
+
+                    hostNumberStr = Console.ReadLine();
+                }
+
+                host = detectedHosts[Convert.ToInt32(hostNumberStr) - 1];
+
+                host = CreateSearchStrings(host);
+            } while (detectedHostsLoop == true);
 
             GetURLs.FindURLs();
         }
