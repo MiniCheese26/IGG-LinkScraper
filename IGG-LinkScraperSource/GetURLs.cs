@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Globalization;
 
 namespace IGGGamesURLResolver
 {
@@ -84,7 +81,7 @@ namespace IGGGamesURLResolver
                     split = Regex.Split(childNodeArray[i], "s://");
                 }
 
-                string[] splitB = Regex.Split(split[1], " ");
+                string[] splitB = Regex.Split(split[1], @"""");
                 linksFinal[i] = splitB[0].ToString();
                 linksFinal[i].Trim();
             }
@@ -110,54 +107,86 @@ namespace IGGGamesURLResolver
         {
             Console.WriteLine("");
             Console.WriteLine("Done");
-            Console.WriteLine("Would you like to 1. display the links or 2. export them to a text file?");
-            int userChoice = Convert.ToInt32(Console.ReadLine());
+            bool wLoop = false;
 
-            Console.WriteLine("");
-
-            if (userChoice == 1)
+            do
             {
-                foreach (string i in finalLinks)
-                {
-                    Console.WriteLine(i);
-                }
+                Console.WriteLine("Would you like to A. display the links or B. export them to a text file?");
+                string userChoice = Console.ReadLine().ToUpper();
 
                 Console.WriteLine("");
-                Console.WriteLine("Press enter to paste a new link");
-                Console.ReadKey();
-                Console.Clear();
-                Start.Main();
-            }
-            if (userChoice == 2)
-            {
-                string root = Path.GetPathRoot(Directory.GetCurrentDirectory());
-                string dir = root + @"IGG Links\" + "Links.txt";
 
-                if (!Directory.Exists(root + "IGG Links"))
+                if (userChoice == "A")
                 {
-                    Console.WriteLine("A");
-                    Directory.CreateDirectory(root + "IGG Links");
-                    File.Create(dir).Close();
-                }
+                    foreach (string i in finalLinks)
+                    {
+                        Console.WriteLine(i);
+                    }
 
-                foreach (string j in finalLinks)
+                    Console.WriteLine("");
+                    Console.WriteLine("Press enter to paste a new link");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Start.Main();
+                }
+                if (userChoice == "B")
                 {
-                    File.AppendAllText(dir, j + Environment.NewLine + Environment.NewLine);
-                }
+                    string path = (Directory.GetCurrentDirectory());
+                    string dir = path + @"\Links.txt";
 
-                Console.WriteLine("Links exported to {0}", root + @"IGG Links\" + "Links.txt");
-                Console.WriteLine("Press enter to paste a new link");
-                Console.ReadKey();
-                Console.Clear();
-                Start.Main();
-            }
-            else
-            {
-                Console.WriteLine("Enter A or B Please");
-                Console.ReadKey();
-                Console.Clear();
-                LinksGrabbed(finalLinks);
-            }
+                    int i = 0;
+
+                    foreach (string j in finalLinks)
+                    {
+                        string title = GetTitle();
+
+                        if (i == 0)
+                        {
+                            File.AppendAllText(dir, Environment.NewLine + 
+                                                    "---------------------------" + 
+                                                    Environment.NewLine + 
+                                                    title + 
+                                                    Environment.NewLine + 
+                                                    "---------------------------" + 
+                                                    Environment.NewLine + 
+                                                    j + 
+                                                    Environment.NewLine);
+                            i++;
+                        }
+
+                        File.AppendAllText(dir, j + Environment.NewLine);
+                    }
+
+                    Console.WriteLine("Links exported to {0}", path + @"\Links.txt");
+                    Console.WriteLine("Press enter to paste a new link");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Start.Main();
+                }
+                else
+                {
+                    Console.WriteLine("Enter A or B Please");
+                    Console.ReadKey();
+                    Console.Clear();
+                    wLoop = true;
+                }
+            } while (wLoop == true);
+        }
+
+        static string GetTitle()
+        {
+            string stringForTitle = Start.url.Substring(21);
+
+            stringForTitle = stringForTitle.Replace("-", " ");
+
+            string[] split = Regex.Split(stringForTitle, " free download");
+
+            stringForTitle = split[0];
+            stringForTitle.Trim();
+
+            stringForTitle = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(stringForTitle);
+
+            return stringForTitle;
         }
     }
 }

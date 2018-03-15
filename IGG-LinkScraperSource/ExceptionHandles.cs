@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using System.Timers;
 
 namespace IGGGamesURLResolver
 {
@@ -29,6 +30,22 @@ namespace IGGGamesURLResolver
             }
         }
 
+        public static bool CheckIfHttpsIsValid(string url)
+        {
+            try
+            {
+                HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+                req.Method = "HEAD";
+                HttpWebResponse response = req.GetResponse() as HttpWebResponse;
+                response.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static string FixDifferentURLs(string host)
         {
             if (host == "Link Uploaded:")
@@ -44,6 +61,11 @@ namespace IGGGamesURLResolver
             else if (host == "Link Uptobox:")
             {
                 host = "uptobox.com";
+                return host;
+            }
+            else if (host == "Link Upera:")
+            {
+                host = "public.upera.co";
                 return host;
             }
             else
