@@ -1,5 +1,7 @@
 # IGG-LinkScraper
 
+![ScraperImage](https://i.imgur.com/N6Pqw7f.png "Screenshot")
+
 As the title implies, this small tool will grab the links of a chosen host from IGG-Games.
 * Just paste a link in
 * Choose the host
