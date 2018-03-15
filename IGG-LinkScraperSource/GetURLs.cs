@@ -17,7 +17,8 @@ namespace IGGGamesURLResolver
 
             if (CheckIfHosterExists() != true)
             {
-                Console.WriteLine("Sorry, the hoster chosen doesn't exist on this page");
+                Console.WriteLine("");
+                Console.WriteLine("Sorry, the hoster chosen doesn't exist for this game");
                 Console.ReadKey();
                 Console.Clear();
                 Start.Main();

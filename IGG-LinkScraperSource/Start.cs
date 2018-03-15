@@ -27,16 +27,20 @@ namespace IGGGamesURLResolver
 
                 urlCheck = ExceptionHandles.WebExceptionHandle(url);
 
-                if (!url.Contains("http://igg-games.com/")) //Change
+                if (urlCheck != false)
                 {
-                    Console.WriteLine("Enter an igg-games link");
-                    Console.ReadKey();
-                    Console.Clear();
-                    urlCheck = false;
-                }
-                else
-                {
-                    urlCheck = true;
+                    if (!url.Contains("http://igg-games.com/")) //Change
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("!!!Enter an igg-games link");
+                        Console.ReadKey();
+                        Console.Clear();
+                        urlCheck = false;
+                    }
+                    else
+                    {
+                        urlCheck = true;
+                    }
                 }
             } while (urlCheck == false);
 

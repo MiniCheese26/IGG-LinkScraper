@@ -30,22 +30,6 @@ namespace IGGGamesURLResolver
             }
         }
 
-        public static bool CheckIfHttpsIsValid(string url)
-        {
-            try
-            {
-                HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
-                req.Method = "HEAD";
-                HttpWebResponse response = req.GetResponse() as HttpWebResponse;
-                response.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static string FixDifferentURLs(string host)
         {
             if (host == "Link Uploaded:")
