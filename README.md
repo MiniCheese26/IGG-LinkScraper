@@ -7,6 +7,7 @@ As the title implies, this small tool will grab the links of a chosen host from 
 
 ## Todo
 * Add other hosts IGG-Games used.
+* Add automatic detection of avaliable hosts so it doesn't print all of them
 
 This is my first real tool I've ever programmed in C# so it may be inefficient or hacky at places but it's a learning process isn't it?
 
