@@ -34,6 +34,7 @@ namespace IGGGamesURLResolver
                                                 "DownACE"};
         public static bool batchLinksEnabled;
         public static int linkSplitIndex = 0;
+        public static string[] detectedHosts;
 
         [STAThread]
         public static void Main()
@@ -73,7 +74,7 @@ namespace IGGGamesURLResolver
                 AfterStart();
             }
 
-            Console.WriteLine("IGG Games LinkScraper Version: 1.4");
+            Console.WriteLine("IGG Games LinkScraper Version: 1.4.2");
             Console.WriteLine("Enter A. to enter a URL or enter B. to load links from batchfile");
             startChoice = Console.ReadLine().ToUpper();
 
@@ -148,7 +149,7 @@ namespace IGGGamesURLResolver
             data = webC.DownloadString(url);
 
             int detectedCount = ExceptionHandles.CountHosts(hosters);
-            string[] detectedHosts = new string[detectedCount];
+            detectedHosts = new string[detectedCount];
 
             detectedHosts = ExceptionHandles.DetectHosts(hosters, detectedCount);
 
@@ -188,7 +189,7 @@ namespace IGGGamesURLResolver
 
             host = detectedHosts[Convert.ToInt32(hostNumberStr) - 1];
 
-            host = CreateSearchStrings(host);
+            host = CreateSearchStrings(host, Convert.ToInt32(hostNumberStr));
 
             GetURLs.FindURLs();
         }
@@ -206,9 +207,17 @@ namespace IGGGamesURLResolver
             return detectedHosts;
         }
 
-        public static string CreateSearchStrings(string host)
+        public static string CreateSearchStrings(string host, int hostNumber)
         {
-            host = host.Substring(3);
+            if (hostNumber >= 10)
+            {
+                host = host.Substring(4);
+            }
+            else
+            {
+                host = host.Substring(3);
+            }
+
             host = "Link " + host + ":";
             return host;
         }

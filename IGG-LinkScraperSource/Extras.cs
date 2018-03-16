@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace IGGGamesURLResolver
 {
-    class Extras
+    class Extras : Start
     {
         public static string dir = Directory.GetCurrentDirectory() + @"\BatchLinks.txt";
         public static string[] linkSplit;
@@ -50,6 +50,34 @@ namespace IGGGamesURLResolver
             }
 
             return;
+        }
+
+        public static bool HttpsList(string[] inputHost)
+        {
+            string[] usesHttps = new string[11] {"megaup.net",
+                                                 "mega.nz",
+                                                 "rapidgator.net",
+                                                 "uptobox.com",
+                                                 "drive.google.com",
+                                                 "openload.co",
+                                                 "ClicknUpload",
+                                                 "go4up.com",
+                                                 "multiup.org",
+                                                 "filescdn.com",
+                                                 "downace.com"};
+
+            foreach (string i in usesHttps)
+            {
+                foreach (string j in inputHost)
+                {
+                    if (j.Contains(i))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

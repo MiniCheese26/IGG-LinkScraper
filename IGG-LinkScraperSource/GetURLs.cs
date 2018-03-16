@@ -81,7 +81,16 @@ namespace IGGGamesURLResolver
 
             for (int i = 0; i < childNodeArray.Length; i++)
             {
-                linksFinal[i] = "http://" + linksFinal[i];
+                bool httpsCheck = Extras.HttpsList(linksFinal);
+
+                if (httpsCheck == true)
+                {
+                    linksFinal[i] = "https://" + linksFinal[i];
+                }
+                else
+                {
+                    linksFinal[i] = "http://" + linksFinal[i];
+                }
             }
 
             LinksGrabbed(linksFinal);
@@ -148,7 +157,14 @@ namespace IGGGamesURLResolver
                 }
                 if (userChoice == "B")
                 {
-                    string s = String.Join("", finalLinks);
+                    string[] eachString = new string[finalLinks.Length];
+
+                    for (int i = 0; i < finalLinks.Length; i++)
+                    {
+                        eachString[i] = finalLinks[i];
+                    }
+
+                    string s = String.Join(Environment.NewLine, eachString);
 
                     ClipboardForPaste.Clipboard.SetText(s);
 
@@ -156,7 +172,7 @@ namespace IGGGamesURLResolver
                     Console.WriteLine("Press enter to paste a new link");
                     Console.ReadKey();
                     Console.Clear();
-                    IGGGamesURLResolver.Start.Main();
+                    Start.Main();
                 }
                 else
                 {
