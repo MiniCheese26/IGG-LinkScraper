@@ -89,7 +89,6 @@ namespace IGGGamesURLResolver
         static void LinksGrabbed(string[] finalLinks)
         {
             Console.WriteLine("");
-            Console.WriteLine("Done");
             bool wLoop = false;
 
             do
@@ -150,13 +149,12 @@ namespace IGGGamesURLResolver
                 {
                     Console.WriteLine("Enter A or B Please");
                     Console.ReadKey();
-                    Console.Clear();
                     wLoop = true;
                 }
             } while (wLoop == true);
         }
 
-        static string GetTitle()
+        public static string GetTitle()
         {
             string stringForTitle = Start.url.Substring(21);
 

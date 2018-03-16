@@ -32,35 +32,118 @@ namespace IGGGamesURLResolver
                                                 "UpFile",
                                                 "FilesCDN",
                                                 "DownACE"};
+        public static bool batchLinksEnabled;
+        public static int linkSplitIndex = 0;
 
         public static void Main()
         {
-            bool urlCheck = false;
+            string startChoice;
+            startChoice = "";
 
-            do
+            if (batchLinksEnabled == true)
+            {
+                bool batchCheck = false;
+                int linkSplitLength = Extras.linkSplit.Length - 1;
+
+                if (linkSplitLength == linkSplitIndex)
+                {
+                    Console.WriteLine("Batch links done");
+                    Console.ReadKey();
+                    Console.Clear();
+                    batchLinksEnabled = false;
+                    Main();
+                }
+
+                url = Extras.linkSplit[linkSplitIndex];
+
+                batchCheck = LinkCheck();
+
+                if (batchCheck != true)
+                {
+                    Console.WriteLine("Your link on line {0} is invalid", linkSplitIndex + 1);
+                    Console.ReadKey();
+                    Console.Clear();
+                    batchLinksEnabled = false;
+                    Main();
+                }
+
+                linkSplitIndex++;
+                Extras.title = GetURLs.GetTitle();
+                AfterStart();
+            }
+
+            Console.WriteLine("IGG Games LinkScraper Version: 1.4");
+            Console.WriteLine("Enter A. to enter a URL or enter B. to load links from batchfile");
+            startChoice = Console.ReadLine().ToUpper();
+
+            if (startChoice == "B")
+            {
+                bool batchCheck = false;
+                batchLinksEnabled = true;
+                Console.Clear();
+                Extras.ReadBatchFile();
+                url = Extras.linkSplit[linkSplitIndex];
+
+                batchCheck = LinkCheck();
+
+                if (batchCheck != true)
+                {
+                    Console.WriteLine("Your link on line {0} is invalid", linkSplitIndex + 1);
+                    Console.ReadKey();
+                    Console.Clear();
+                    batchLinksEnabled = false;
+                    Main();
+                }
+
+
+                Extras.title = GetURLs.GetTitle();
+                linkSplitIndex++;
+                AfterStart();
+            }
+
+            bool urlValid = false;
+
+            while (urlValid == false)
             {
                 Console.WriteLine("Enter URL");
                 url = Console.ReadLine();
 
-                urlCheck = ExceptionHandles.WebExceptionHandle(url);
+                urlValid = LinkCheck();
 
-                if (urlCheck != false)
+                if (urlValid == false)
                 {
-                    if (!url.Contains("http://igg-games.com/")) //Change
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("!!!Enter an igg-games link");
-                        Console.ReadKey();
-                        Console.Clear();
-                        urlCheck = false;
-                    }
-                    else
-                    {
-                        urlCheck = true;
-                    }
+                    Console.WriteLine("Try again");
+                    url = Console.ReadLine();
                 }
-            } while (urlCheck == false);
+            }
 
+            AfterStart();
+        }
+
+        static bool LinkCheck()
+        {
+            bool urlCheck;
+
+            urlCheck = ExceptionHandles.WebExceptionHandle(url);
+
+            if (urlCheck == false)
+            {
+
+                return false;
+            }
+
+            if (!url.Contains("http://igg-games.com/"))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        static void AfterStart()
+        {
             data = webC.DownloadString(url);
 
             int detectedCount = ExceptionHandles.CountHosts(hosters);
@@ -70,40 +153,41 @@ namespace IGGGamesURLResolver
 
             detectedHosts = CreateDisplayStrings(detectedCount, detectedHosts);
 
-            bool detectedHostsLoop = false;
-
-                Console.WriteLine(" ");
-                Console.WriteLine("Detected hosts");
-                for (int i = 0; i < detectedCount; i++)
-                {
-                    Console.WriteLine(detectedHosts[i]);
-                }
-                string hostNumberStr = Console.ReadLine();
-
-            do
+            Console.WriteLine(" ");
+            if (batchLinksEnabled == true)
             {
-                while (!Int32.TryParse(hostNumberStr, out int n))
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Try again");
+                Console.WriteLine(Extras.title);
+                Console.WriteLine("-----------------");
+            }
+            Console.WriteLine("Detected hosts");
+            for (int i = 0; i < detectedCount; i++)
+            {
+                Console.WriteLine(detectedHosts[i]);
+            }
+            string hostNumberStr = Console.ReadLine();
 
-                    hostNumberStr = Console.ReadLine();
-                }
+            while (!Int32.TryParse(hostNumberStr, out int n))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Try again");
 
-                int hostCheck = Convert.ToInt32(hostNumberStr);
+                hostNumberStr = Console.ReadLine();
+            }
 
-                if (hostCheck - 1 > detectedCount)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Try again");
+            int hostCheck = Convert.ToInt32(hostNumberStr);
 
-                    hostNumberStr = Console.ReadLine();
-                }
+            while (hostCheck > detectedCount)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Try again");
 
-                host = detectedHosts[Convert.ToInt32(hostNumberStr) - 1];
+                hostNumberStr = Console.ReadLine();
+                hostCheck = Convert.ToInt32(hostNumberStr);
+            }
 
-                host = CreateSearchStrings(host);
-            } while (detectedHostsLoop == true);
+            host = detectedHosts[Convert.ToInt32(hostNumberStr) - 1];
+
+            host = CreateSearchStrings(host);
 
             GetURLs.FindURLs();
         }

@@ -22,10 +22,6 @@ namespace IGGGamesURLResolver
             }
             catch
             {
-                Console.Clear();
-                Console.WriteLine("URL is not valid");
-                Console.ReadKey();
-                Console.Clear();
                 return false;
             }
         }
