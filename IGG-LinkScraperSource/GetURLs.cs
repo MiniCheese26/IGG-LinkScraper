@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
+using ClipboardForPaste = System.Windows.Forms;
 
 namespace IGGGamesURLResolver
 {
@@ -93,7 +94,7 @@ namespace IGGGamesURLResolver
 
             do
             {
-                Console.WriteLine("Would you like to A. display the links or B. export them to a text file?");
+                Console.WriteLine("Would you like to A. display the links, B. copy them to your clipboard or C. export them to a text file?");
                 string userChoice = Console.ReadLine().ToUpper();
 
                 Console.WriteLine("");
@@ -111,7 +112,7 @@ namespace IGGGamesURLResolver
                     Console.Clear();
                     Start.Main();
                 }
-                if (userChoice == "B")
+                if (userChoice == "C")
                 {
                     string path = (Directory.GetCurrentDirectory());
                     string dir = path + @"\Links.txt";
@@ -144,6 +145,18 @@ namespace IGGGamesURLResolver
                     Console.ReadKey();
                     Console.Clear();
                     Start.Main();
+                }
+                if (userChoice == "B")
+                {
+                    string s = String.Join("", finalLinks);
+
+                    ClipboardForPaste.Clipboard.SetText(s);
+
+                    Console.WriteLine("Clipboard set");
+                    Console.WriteLine("Press enter to paste a new link");
+                    Console.ReadKey();
+                    Console.Clear();
+                    IGGGamesURLResolver.Start.Main();
                 }
                 else
                 {

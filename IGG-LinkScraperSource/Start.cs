@@ -35,6 +35,7 @@ namespace IGGGamesURLResolver
         public static bool batchLinksEnabled;
         public static int linkSplitIndex = 0;
 
+        [STAThread]
         public static void Main()
         {
             string startChoice;
