@@ -12,7 +12,7 @@ As the title implies, this small tool will grab the links of a chosen host from 
 * ~~Add automatic detection of avaliable hosts so it doesn't print all of them~~
 * Save all links to a class level variable that you can recall
 * ~~Batch read links from a text file~~
-* Cleanup the code
+* Cleanup the code, it's horrible to read
 
 This is my first real tool I've ever programmed in C# so it may be inefficient or hacky at places but it's a learning process isn't it?
 
