@@ -66,8 +66,6 @@ namespace IGGLinksScraper
             {
                 Console.WriteLine(hostUrl);
             }
-
-            Console.ReadKey();
         }
 
         private static void DisplayHelp()
