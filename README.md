@@ -12,6 +12,6 @@
 
 # What Does It Do?
 
-So IGG Games uses an annoying url shortener, but they also include the actual url in that shorterned url. So my tool just parses the page, grabs all the hosters, gives you a list of hosters to choose from and then displays you the links
+So IGG Games uses an annoying url shortener, but they also include the actual url in that shortened url. So my tool just parses the page, grabs all the hosters, gives you a list of hosters to choose from and then displays you the links
 
 # Enjoy
