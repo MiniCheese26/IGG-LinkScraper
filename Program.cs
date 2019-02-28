@@ -21,6 +21,12 @@ namespace IGGLinksScraper
                 DisplayHelp();
                 Environment.Exit(1);
             }
+            
+            if (args[0] == "--help")
+            {
+                DisplayHelp();
+                Environment.Exit(1);
+            }
 
             Console.WriteLine("IGG Games LinkScraper Version: 2.0.0");
 
