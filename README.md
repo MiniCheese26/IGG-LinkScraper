@@ -4,7 +4,7 @@
 
 # Usage
 
-##### `dotnet iggGamesLinksScraper.dll <url>`
+##### `dotnet iggGamesLinksScraper.dll <url> <url2> <url3>...`
 
 # Requirements
 
