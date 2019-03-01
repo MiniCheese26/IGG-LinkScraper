@@ -1,6 +1,6 @@
 # IGG-LinkScraper
 
-![ScraperImage](https://i.imgur.com/QbSHypD.png "Screenshot")
+![ScraperImage](https://i.imgur.com/oLg7tM0.png "Screenshot")
 
 # Usage
 
