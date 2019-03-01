@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace IGGLinksScraper
+namespace iggGamesLinksScraper
 {
     public class HostsData
     {
         public string Host;
-        public List<string> Url;
+        public IEnumerable<string> Url;
     }
 
     internal static class Program
@@ -26,7 +26,7 @@ namespace IGGLinksScraper
                 Environment.Exit(1);
             }
 
-            Console.WriteLine("IGG Games LinkScraper Version: 2.0.1");
+            Console.WriteLine("\nIGG Games LinkScraper Version: 2.0.1");
 
             foreach (var arg in args)
             {
@@ -77,6 +77,7 @@ namespace IGGLinksScraper
             }
 
             Console.WriteLine("\nDone");
+            Console.ReadKey();
         }
 
         private static void DisplayHelp()
