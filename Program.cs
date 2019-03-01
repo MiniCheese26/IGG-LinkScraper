@@ -26,7 +26,7 @@ namespace IGGLinksScraper
                 Environment.Exit(1);
             }
 
-            Console.WriteLine("IGG Games LinkScraper Version: 2.0.0");
+            Console.WriteLine("IGG Games LinkScraper Version: 2.0.1");
 
             foreach (var arg in args)
             {
@@ -81,7 +81,7 @@ namespace IGGLinksScraper
 
         private static void DisplayHelp()
         {
-            Console.WriteLine("\nUsage : dotnet iggLinkScraper.dll <url-here>");
+            Console.WriteLine("\nUsage : dotnet iggLinkScraper.dll <url1> <ur2> <url3>...");
         }
     }
 }
