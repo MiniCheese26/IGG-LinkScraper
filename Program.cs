@@ -77,7 +77,6 @@ namespace iggGamesLinksScraper
             }
 
             Console.WriteLine("\nDone");
-            Console.ReadKey();
         }
 
         private static void DisplayHelp()
