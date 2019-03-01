@@ -4,7 +4,7 @@ using System.Net;
 
 namespace iggGamesLinksScraper
 {
-    public class HostsData
+    internal class HostsData
     {
         public string Host;
         public IEnumerable<string> Url;
@@ -12,7 +12,7 @@ namespace iggGamesLinksScraper
 
     internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Length == 0)
             {

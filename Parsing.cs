@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using HtmlAgilityPack;
@@ -12,6 +11,11 @@ namespace iggGamesLinksScraper
     {
         private static readonly HtmlDocument HtmlDocument = new HtmlDocument();
 
+        /// <summary>
+        /// Parses page source to find valid links and hosters
+        /// </summary>
+        /// <param name="content">Page source</param>
+        /// <returns>List as type HostsData</returns>
         public static List<HostsData> GetHosts(string content)
         {
             HtmlDocument.LoadHtml(content);
@@ -52,13 +56,19 @@ namespace iggGamesLinksScraper
             return hostsDataList;
         }
 
+
+        /// <summary>
+        /// Grabs title from page source
+        /// </summary>
+        /// <param name="content">Page source</param>
+        /// <returns>Game title as string</returns>
         public static string GetTitle(string content)
         {
             HtmlDocument.LoadHtml(content);
 
             return HtmlDocument.DocumentNode.SelectSingleNode("/html/body/div/div/div[4]/div/div/div/article/h1")
                 .InnerText
-                .Split(new[] { " Free" }, StringSplitOptions.None).First();
+                .Split(new[] { " Free Download" }, StringSplitOptions.None).First();
         }
     }
 }
