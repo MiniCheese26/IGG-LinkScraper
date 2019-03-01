@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using HtmlAgilityPack;
 
 namespace IGGLinksScraper
 {
@@ -21,7 +19,7 @@ namespace IGGLinksScraper
                 DisplayHelp();
                 Environment.Exit(1);
             }
-            
+
             if (args[0] == "--help")
             {
                 DisplayHelp();
@@ -30,48 +28,55 @@ namespace IGGLinksScraper
 
             Console.WriteLine("IGG Games LinkScraper Version: 2.0.0");
 
-            Uri url = new Uri(args[0]);
-
-            WebClient webClient = new WebClient();
-
-            var content = webClient.DownloadString(url);
-
-            List<HostsData> hostersList = Parsing.GetHosts(content);
-
-            Console.WriteLine("\nHosts Available\n");
-
-            for (var index = 0; index < hostersList.Count; index++)
+            foreach (var arg in args)
             {
-                var host = hostersList[index];
+                Uri url = new Uri(arg);
 
-                Console.WriteLine($"[{index + 1}] {host.Host}");
-            }
+                WebClient webClient = new WebClient();
 
-            Console.Write("\nWhich hoster would you like to use: ");
-            string hosterResponseString = Console.ReadLine();
+                var content = webClient.DownloadString(url);
 
-            while (!int.TryParse(hosterResponseString, out int n))
-            {
-                Console.WriteLine("\nPlease enter a number");
+                Console.WriteLine(Environment.NewLine + Parsing.GetTitle(content));
+
+                List<HostsData> hostersList = Parsing.GetHosts(content);
+
+                Console.WriteLine("\nHosts Available\n");
+
+                for (var index = 0; index < hostersList.Count; index++)
+                {
+                    var host = hostersList[index];
+
+                    Console.WriteLine($"[{index + 1}] {host.Host}");
+                }
+
                 Console.Write("\nWhich hoster would you like to use: ");
-                hosterResponseString = Console.ReadLine();
+                string hosterResponseString = Console.ReadLine();
+
+                while (!int.TryParse(hosterResponseString, out int n))
+                {
+                    Console.WriteLine("\nPlease enter a number");
+                    Console.Write("\nWhich hoster would you like to use: ");
+                    hosterResponseString = Console.ReadLine();
+                }
+
+                while (Convert.ToInt32(hosterResponseString) - 1 > hostersList.Count - 1 || Convert.ToInt32(hosterResponseString) - 1 < 0)
+                {
+                    Console.WriteLine("\nPlease enter a number within the correct range");
+                    Console.Write("\nWhich hoster would you like to use: ");
+                    hosterResponseString = Console.ReadLine();
+                }
+
+                int hosterResponse = Convert.ToInt32(hosterResponseString) - 1;
+
+                Console.Write("\n");
+
+                foreach (var hostUrl in hostersList[hosterResponse].Url)
+                {
+                    Console.WriteLine(hostUrl);
+                }
             }
 
-            while (Convert.ToInt32(hosterResponseString) - 1 > hostersList.Count - 1 || Convert.ToInt32(hosterResponseString) - 1 < 0)
-            {
-                Console.WriteLine("\nPlease enter a number within the correct range");
-                Console.Write("\nWhich hoster would you like to use: ");
-                hosterResponseString = Console.ReadLine();
-            }
-
-            int hosterResponse = Convert.ToInt32(hosterResponseString) - 1;
-
-            Console.Write("\n");
-
-            foreach (var hostUrl in hostersList[hosterResponse].Url)
-            {
-                Console.WriteLine(hostUrl);
-            }
+            Console.WriteLine("\nDone");
         }
 
         private static void DisplayHelp()
