@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace iggGamesLinksScraper
@@ -14,27 +15,19 @@ namespace iggGamesLinksScraper
     {
         private static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length == 0 || args[0] == "--help")
             {
                 DisplayHelp();
                 Environment.Exit(1);
             }
-
-            if (args[0] == "--help")
-            {
-                DisplayHelp();
-                Environment.Exit(1);
-            }
+            
+            WebClient webClient = new WebClient();
 
             Console.WriteLine("\nIGG Games LinkScraper Version: 2.0.1");
 
             foreach (var arg in args)
             {
-                Uri url = new Uri(arg);
-
-                WebClient webClient = new WebClient();
-
-                var content = webClient.DownloadString(url);
+                var content = webClient.DownloadString(new Uri(arg));
 
                 Console.WriteLine(Environment.NewLine + Parsing.GetTitle(content));
 
@@ -51,22 +44,15 @@ namespace iggGamesLinksScraper
 
                 Console.Write("\nWhich hoster would you like to use: ");
                 string hosterResponseString = Console.ReadLine();
-
-                while (!int.TryParse(hosterResponseString, out int n))
+                
+                while (!int.TryParse(hosterResponseString, out int n) || !Enumerable.Range(1, hostersList.Count).Contains(n))
                 {
-                    Console.WriteLine("\nPlease enter a number");
+                    Console.WriteLine("\nInvalid input");
                     Console.Write("\nWhich hoster would you like to use: ");
                     hosterResponseString = Console.ReadLine();
                 }
 
-                while (Convert.ToInt32(hosterResponseString) - 1 > hostersList.Count - 1 || Convert.ToInt32(hosterResponseString) - 1 < 0)
-                {
-                    Console.WriteLine("\nPlease enter a number within the correct range");
-                    Console.Write("\nWhich hoster would you like to use: ");
-                    hosterResponseString = Console.ReadLine();
-                }
-
-                int hosterResponse = Convert.ToInt32(hosterResponseString) - 1;
+                int hosterResponse = int.Parse(hosterResponseString) - 1;
 
                 Console.Write("\n");
 
